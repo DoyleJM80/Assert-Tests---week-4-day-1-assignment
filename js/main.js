@@ -13,20 +13,21 @@ Scope
 - What would console.log(y) and console.log(x) print? Why?
 - Write you answer bellow the code.
 **************************************************************************************/
-(function(){
-  "use strict";
-
-  var x = "I'm a local variable";
-  //console.log(y)
-
-  function scopeThis(){
-    var y = "I'm a global variable";
-    console.log(x);
-  }
-  scopeThis();
-})();
+// (function(){
+//   "use strict";
+//
+//   var x = "I'm a local variable";
+//   // console.log(y)
+//
+//   function scopeThis(){
+//     var y = "I'm a global variable";
+//     console.log(x);
+//   }
+//   scopeThis();
+// })();
 /*************************************************************************************
------------- ANSWER -------------------
+console.log(y) would print undefined because it is declared inside scopeThis and called outside of it,
+console.log(x) will print 'I'm a local variable' because its declared in global
 
 **************************************************************************************/
 
@@ -41,23 +42,24 @@ Hoisting
 - What would console.log(x) and console.log(y) print? Why?
 - Write you answer bellow the code.
 **************************************************************************************/
-(function(){
-  "use strict";
-
-  function warmUp() {
-    console.log(x);
-    console.log(foo());
-
-    var x = "variable hosting!";
-
-    function foo() {
-      return "function hoisting";
-    }
-  }
-  warmUp();
-})();
+// (function(){
+//   "use strict";
+//
+//   function warmUp() {
+//     console.log(x);
+//     console.log(foo());
+//
+//     var x = "variable hosting!";
+//
+//     function foo() {
+//       return "function hoisting";
+//     }
+//   }
+//   warmUp();
+// })();
 /*************************************************************************************
------------- ANSWER -------------------
+console.log(x) will print undefined because it gets declared before the console.log, but assigned after the log
+foo will print function hoisting because it will be assigned before the log
 
 **************************************************************************************/
 
@@ -72,13 +74,15 @@ Date Object
 - Declare a variable 'todayIs'.
 - Using the date constructor, it should print today's date.
 **************************************************************************************/
+
+
+
 (function(testerOne){
   "use strict";
-  //YOUR CODE HERE
-  console.assert(todayIs == today, "#3 Test failed. Did you set the date correctly?");
-})(testerOne);
-
-
+  var todayIs = new Date();
+  console.log(todayIs);
+  console.assert(todayIs.toString() == (new Date).toString(), "#3 Test failed. Did you set the date correctly?");
+})();
 
 
 
@@ -92,11 +96,11 @@ Warm up
 (function() {
   "use strict";
   const add = 2 + 2;
-  //console.log(add);
+  // console.log(add);
 })();
-//console.log(add);
+// console.log(add);
 /**************************************************************************************
------------- ANSWER -------------------
+inside it will log 4, outside it will log undefined
 
 **************************************************************************************/
 
@@ -114,12 +118,14 @@ Hoisting
 **************************************************************************************/
 (function(){
   "use strict";
-  var date = new Date(birthday);
-  var birthday;
-  bdayMsg();
+  var birthday = new Date(1983, 3, 21);
+
+
+
   var bdayMsg = function(){
-    return "You were born on " + date.toDateString();
-  }
+    return "You were born on " + birthday.toDateString();
+  };
+  bdayMsg();
   console.log("#5 bdayMsg()", bdayMsg());
   console.assert(bdayMsg() == "You were born on Thu Apr 21 1983", "#5 Test failed. Check function hoisting." )
 })();
@@ -135,14 +141,16 @@ Date object
 - Declare a variable: 'stringDate'.
 - Set the value of 'stringDate' to be a string of today's date.
 **************************************************************************************/
-(function(testerTwo){
+(function(){
   "use strict";
   var today = new Date();
+  var stringDate = today.toString();
+
   console.log("#6 stringDate", stringDate)
-  console.assert(stringDate == testerTwo, "#6 Test Failed. Did you set stringDate correctly?")
-})(testerTwo);
+  console.assert(stringDate == (new Date()).toString(), "#6 Test Failed. Did you set stringDate correctly?")
+})();
 
-
+// Mady changed the assert on line 150 to test the code that i wrote
 
 
 
@@ -162,20 +170,23 @@ Hoisting
 (function(){
   "use strict";
 
-  pizza.pizzaMkr();
+
 
   var pizza = {
-    sauce: "",
-    orderNow: "",
+    sauce: true,
+    orderNow: true,
     pizzaMkr: function(){
-      if (pizza.orderNow == true && pizza.sauce == true){
-        return "We are making your pizza with " + this.sauceType + " and " + this.protein + ". Pickup in 20 minutes."
+      if (pizza.orderNow === true && pizza.sauce === true){
+        return "We are making your pizza with " + this.sauceType + " and " + this.protein + ". Pickup in 20 minutes.";
       }
       else {
-        return "We only make traditional pizzas. You gotta add some sauce!"
+        return "We only make traditional pizzas. You gotta add some sauce!";
       }
     }
-  }
+  };
+  pizza.sauceType = 'tomato';
+  pizza.protein = 'chicken';
+  pizza.pizzaMkr();
 
   console.log("# 7 pizza.pizzaMrk()", pizza.pizzaMkr());
   console.assert(pizza.pizzaMkr() == "We are making your pizza with tomato and chicken. Pickup in 20 minutes.", "#7 Test failed. Did you add the propeties? Did you set the values correctly? Did you fix the hoisting issues?")
@@ -207,55 +218,42 @@ HINTS:
 
   var goodStanding = false;
   var monthsActive = 2;
-  
   //Do not modify 'name' globaly.
   var name = null;
-  
-  accountCheck();
-  
-  var benefit = {}
-  //Add properties to 'benefit' using braket notation
-
+  var benefit = {};
+  benefit['credit'] = 50;
+  benefit['discount'] = 5;
   var accountCheck = function() {
-
     var greeting = function() {
-
-      return "Hello " + name + ". Here is the status of your account."
-    }
-    
+      name = 'James';
+      return "Hello " + name + ". Here is the status of your account.";
+    };
     function accountStat() {
-      
-      if (goodStanding == true && monthsActive >= 12) {
-        
+      if (goodStanding === true && monthsActive >= 12) {
         return offerDiscount(name);
-
-      } else if (goodStanding == false) {
-        
-        return "Please make a payment within 7 days or your service will be terminated, forever."
-
+      } else if (goodStanding === false) {
+        return "Please make a payment within 7 days or your service will be terminated, forever.";
       } else if (monthsActive <= 12) {
-
         var timeFrame = 12 - monthsActive;
         var months;
-
         if (timeFrame == 1) {
-        
           months = "month";
         } else {
-        
-          months = "months"
+          months = "months";
         }
-        
-        return "You are " + timeFrame + " " + months + " from getting a special discount!"
+        return "You are " + timeFrame + " " + months + " from getting a special discount!";
       }
-
       function offerDiscount() {
-
         return "Thank you for your loyalty. You've been a member for " + monthsActive + " " + "months . You next bill will reflect a $" + benefit.credit + " credit and a " + benefit.discount + "% discount going forward.";
       }
     }
     //Here 'accountCheck' should return both the 'greeting' output and the 'accountStat' output.
-  }
+    return greeting() + ' ' + accountStat();
+  };
+  accountCheck();
+  goodStanding = true;
+  monthsActive = 18;
+  accountCheck();
 
   console.log("#8 accountCheck():", accountCheck());
   console.assert(name == "James", "Test failed. You should set 'name' to 'james' from within accountCheck()");
@@ -277,7 +275,7 @@ Compartmentalization
   var multiply = 2 * 8;
 
   function duplicate() {
-    multiply = 2 * 10;
+    var multiply = 2 * 10;
   };
 
   duplicate();
