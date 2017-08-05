@@ -1,13 +1,3 @@
-## Scope, hoisting and compartmentalization
-
-### Answer the following:
-In you own words, explain the concepts of scope, hoisting, compartmentalization.
-
-
-### Provide examples for all three, below:
-
-#### Scope:
-
-#### Hoisting:
-
-#### Compartmentalization:
+Scope, hoisting and compartmentalization
+week 4 day 1 assignment Iron Yard
+https://thedoyles922.github.io/week-4-day-1-project/
